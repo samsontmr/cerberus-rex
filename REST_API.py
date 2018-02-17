@@ -9,14 +9,18 @@ mongo = PyMongo(app, config_prefix='MONGO')
 APP_URL = "http://127.0.0.1:5000"
 
 
-class Student(Resource):
+class Student:
+    def __init__(self, resource):
+        self.resource = resource
+
     def get(self, registration=None, department=None):
         data = []
 
         if registration:
-            studnet_info = mongo.db.student.find_one({"registration": registration}, {"_id": 0})
-            if studnet_info:
-                return jsonify({"status": "ok", "data": studnet_info})
+            student_info = mongo.db.student.find_one({"registration":
+                                                          registration}, {"_id": 0})
+            if student_info:
+                return jsonify({"status": "ok", "data": student_info})
             else:
                 return {"response": "no student found for {}".format(registration)}
 
@@ -65,7 +69,10 @@ class Student(Resource):
         return redirect(url_for("students"))
 
 
-class Index(Resource):
+class Index:
+    def __init__(self, resource):
+        self.resource = resource
+
     def get(self):
         return redirect(url_for("students"))
 
