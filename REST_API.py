@@ -2,7 +2,6 @@
 
 from flask import Flask, jsonify, url_for, redirect, request
 from flask_pymongo import PyMongo
-from flask_restful import Api, Resource
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = "students_db"
@@ -33,7 +32,7 @@ class Student(Resource):
             cursor = mongo.db.student.find({}, {"_id": 0, "update_time": 0}).limit(10)
 
             for student in cursor:
-                print student
+                print(student)
                 student['url'] = APP_URL + url_for('students') + "/" + student.get('registration')
                 data.append(student)
 
