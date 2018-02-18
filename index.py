@@ -1,8 +1,6 @@
-from flask import Flask
-import json
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 import uuid
-from twilio.rest import Client
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = \
@@ -37,8 +35,9 @@ db.create_all()
 
 
 @app.route('/new_message', methods=["POST"])
-def process_data(json_blob):
-    data = json.loads(json_blob)
+def process_data():
+    data = request.get_json()
+    print(data)
     if data["uuid"] is None:
         data["uuid"] = uuid.uuid4()
     # Process timestamp data
@@ -54,11 +53,11 @@ def process_data(json_blob):
             "uuid": data["uuid"],
             "success": True
         }
-    return json.dumps(return_packet)
+    return str(data["uuid"])
 
 
 def initiate_lockdown():
-
+    pass
 
 
 @app.route('/')
