@@ -3,11 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 import os.path
 import uuid
 from twilio.rest import Client
+import folium
 
 
 app = Flask(__name__, static_url_path='')
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'sqlite:///main.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
 db = SQLAlchemy(app)
 root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ui", "build")
 
@@ -17,6 +17,7 @@ class Metadata(db.Model):
     timestamp = db.Column(db.DateTime, unique=False, nullable=False)
     latitude = db.Column(db.Float, unique=False, nullable=True)
     longitude = db.Column(db.Float, unique=False, nullable=True)
+    loc_accuracy = db.Column(db.Integer, unique=False, nullable=True)
     shooter_nearby = db.Column(db.Boolean, unique=False, nullable=True)
     medical_requested = db.Column(db.Integer, unique=False, nullable=True)
 
@@ -43,6 +44,17 @@ db.create_all()
 @app.route('/fetch_data', methods=["POST"])
 def fetch_data
 >>>>>>> Stashed changes
+
+
+def generate_map():
+    m = folium.Map(location=[37.427829, -122.170214])
+
+    folium.Marker(
+        location=[45.3300, -121.6823],
+        popup='Some Other Location',
+        icon=folium.Icon(color='red', icon='info-sign')
+    ).add_to(m)
+    m.save('index.html')
 
 
 @app.route('/new_message', methods=["POST"])
