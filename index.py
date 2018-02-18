@@ -1,13 +1,15 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+import os.path
 import uuid
 from twilio.rest import Client
 
-app = Flask(__name__)
+
+app = Flask(__name__, static_url_path='')
 app.config['SQLALCHEMY_DATABASE_URI'] = \
     'sqlite:///main.db'
 db = SQLAlchemy(app)
-
+root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ui", "build")
 
 class Metadata(db.Model):
     id = db.Column(db.String, primary_key=True)
@@ -33,6 +35,9 @@ class Audio(db.Model):
 
 
 db.create_all()
+
+
+
 
 
 @app.route('/new_message', methods=["POST"])
@@ -68,9 +73,7 @@ def call_police():
     call = client.calls.create(
         to="+19145899232",
         from_="+12019034616",
-        url="https://raw.githubusercontent.com/samsontmr/cerberus-rex/master/"
-            "emergency_call.xml?token=AQdayG-57_wu_gg7x1SOf5tRj0KCzfq-ks5akk"
-            "vDwA%3D%3D"
+        url="https://www.adamcircle.com/emergency_call.xml"
     )
 
     return True
