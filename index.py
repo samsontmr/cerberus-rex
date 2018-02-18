@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 import uuid
+from twilio.rest import Client
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = \
@@ -38,6 +39,7 @@ db.create_all()
 def process_data():
     data = request.get_json()
     print(data)
+    police_called = call_police()
     if data["uuid"] is None:
         data["uuid"] = uuid.uuid4()
     # Process timestamp data
