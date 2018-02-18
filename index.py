@@ -38,6 +38,7 @@ db.create_all()
 
 @app.route('/new_message', methods=["POST"])
 def process_data(json_blob):
+    police_called = call_police()
     data = json.loads(json_blob)
     if data["uuid"] is None:
         data["uuid"] = uuid.uuid4()
@@ -48,7 +49,8 @@ def process_data(json_blob):
         elif data["message_type"] == "Metadata":
             db.session.add(Metadata(**data))
     except:
-        return_packet = {"Success": False}
+        return_packet = {"police_called": police_called,
+                         "success": False}
     else:
         return_packet = {
             "uuid": data["uuid"],
@@ -57,8 +59,19 @@ def process_data(json_blob):
     return json.dumps(return_packet)
 
 
-def initiate_lockdown():
+def call_police():
+    account_sid = "AC5ea2cdc4f220cd56dd5ef910fda8b6d5"
+    auth_token = "825cce384001f5b8b469ea5c4e6ef8ed"
+    client = Client(account_sid, auth_token)
 
+    # Start a phone call
+    call = client.calls.create(
+        to="+12019034616",
+        from_="+19145899232",
+        url="/emergency_call.xml"
+    )
+
+    return True
 
 
 @app.route('/')
