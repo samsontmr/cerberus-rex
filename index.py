@@ -68,7 +68,9 @@ def call_police():
     call = client.calls.create(
         to="+12019034616",
         from_="+19145899232",
-        url="/emergency_call.xml"
+        url="https://raw.githubusercontent.com/samsontmr/cerberus-rex/master/"
+            "emergency_call.xml?token=AQdayG-57_wu_gg7x1SOf5tRj0KCzfq-ks5akk"
+            "vDwA%3D%3D"
     )
 
     return True
