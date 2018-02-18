@@ -37,7 +37,12 @@ class Audio(db.Model):
 db.create_all()
 
 
+<<<<<<< Updated upstream
 
+=======
+@app.route('/fetch_data', methods=["POST"])
+def fetch_data
+>>>>>>> Stashed changes
 
 
 @app.route('/new_message', methods=["POST"])
@@ -59,9 +64,10 @@ def process_data():
     else:
         return_packet = {
             "uuid": data["uuid"],
+            "police_called": police_called,
             "success": True
         }
-    return str(data["uuid"])
+    return return_packet
 
 
 def call_police():
@@ -77,8 +83,3 @@ def call_police():
     )
 
     return True
-
-
-@app.route('/')
-def process_audio():
-    return "bananas\n", 500
