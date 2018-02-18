@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, jsonify, json
 from flask_sqlalchemy import SQLAlchemy
 import os.path
 import uuid
@@ -44,24 +44,31 @@ db.create_all()
 def process_data():
     data = request.get_json()
     print(data)
-    police_called = call_police()
+    #police_called = call_police()
     if data["uuid"] is None:
         data["uuid"] = uuid.uuid4()
     # Process timestamp data
-    try:
-        if data["message_type"] == "Audio":
-            db.session.add(Audio(**data))
-        elif data["message_type"] == "Metadata":
-            db.session.add(Metadata(**data))
-    except:
-        return_packet = {"police_called": police_called,
-                         "success": False}
+        try:
+            if data["message_type"] == "Audio":
+                db.session.add(Audio(**data))
+            elif data["message_type"] == "Metadata":
+                db.session.add(Metadata(**data))
+        except:
+            return_packet = {"police_called": True,
+                         "success": False,
+                         "uuid": data["uuid"]}
     else:
         return_packet = {
             "uuid": data["uuid"],
             "success": True
         }
-    return str(data["uuid"])
+
+    response = app.response_class(
+        response=json.dumps(return_packet),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
 
 
 def call_police():
