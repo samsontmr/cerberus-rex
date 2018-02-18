@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say voice="man">THIS IS A DRILL. A student has reported an active
+        shooter situation at Stanford University. Log into your Cerberus
+        dashboard immediately to monitor the situation. THIS IS A
+        DRILL.</Say>
+    <Hangup/>
+</Response>

@@ -47,7 +47,8 @@ def process_data():
         elif data["message_type"] == "Metadata":
             db.session.add(Metadata(**data))
     except:
-        return_packet = {"Success": False}
+        return_packet = {"police_called": police_called,
+                         "success": False}
     else:
         return_packet = {
             "uuid": data["uuid"],
@@ -56,8 +57,21 @@ def process_data():
     return str(data["uuid"])
 
 
-def initiate_lockdown():
-    pass
+def call_police():
+    account_sid = "AC5ea2cdc4f220cd56dd5ef910fda8b6d5"
+    auth_token = "825cce384001f5b8b469ea5c4e6ef8ed"
+    client = Client(account_sid, auth_token)
+
+    # Start a phone call
+    call = client.calls.create(
+        to="+12019034616",
+        from_="+19145899232",
+        url="https://raw.githubusercontent.com/samsontmr/cerberus-rex/master/"
+            "emergency_call.xml?token=AQdayG-57_wu_gg7x1SOf5tRj0KCzfq-ks5akk"
+            "vDwA%3D%3D"
+    )
+
+    return True
 
 
 @app.route('/')
