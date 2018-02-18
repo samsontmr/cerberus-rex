@@ -1,1 +1,3 @@
 main.db
+*.pyc
+__pycache__/
